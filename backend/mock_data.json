@@ -1,0 +1,44 @@
+{
+  "user_profile": {
+    "id": "user_558",
+    "name": "Aryan",
+    "spending_dna": "Impulsive Socializer",
+    "current_balance": 4200,
+    "monthly_budget": 15000,
+    "days_left_in_month": 12
+  },
+  "subscriptions": [
+    {
+      "id": "sub_1",
+      "name": "Netflix Premium",
+      "cost": 649,
+      "status": "unused",
+      "last_used": "2025-11-20"
+    },
+    {
+      "id": "sub_2",
+      "name": "Gold Gym",
+      "cost": 1500,
+      "status": "active",
+      "last_used": "2025-12-24"
+    }
+  ],
+  "recent_transactions": [
+    {
+      "id": 101,
+      "merchant": "Starbucks",
+      "amount": 350,
+      "category": "Food",
+      "date": "2025-12-24",
+      "emotion": "Stressed"
+    },
+    {
+      "id": 102,
+      "merchant": "Uber",
+      "amount": 120,
+      "category": "Transport",
+      "date": "2025-12-23",
+      "emotion": "Neutral"
+    }
+  ]
+}
