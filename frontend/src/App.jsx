@@ -3,7 +3,7 @@ import { LayoutDashboard, MessageCircle, Wallet, AlertTriangle, Send, ScanLine }
 import './App.css';
 
 // Ensure this matches your running Backend URL
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = 'https://finaura.onrender.com';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
