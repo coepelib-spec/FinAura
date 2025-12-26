@@ -1,44 +1,22 @@
 {
   "user_profile": {
-    "id": "user_558",
     "name": "Aryan",
-    "spending_dna": "Impulsive Socializer",
+    "spending_dna": "YOLO Student",
+    "hourly_wage": 150,
     "current_balance": 4200,
-    "monthly_budget": 15000,
-    "days_left_in_month": 12
+    "days_left": 12,
+    "mood": "Stressed"
   },
-  "subscriptions": [
-    {
-      "id": "sub_1",
-      "name": "Netflix Premium",
-      "cost": 649,
-      "status": "unused",
-      "last_used": "2025-11-20"
-    },
-    {
-      "id": "sub_2",
-      "name": "Gold Gym",
-      "cost": 1500,
-      "status": "active",
-      "last_used": "2025-12-24"
-    }
+  "roommate_ledger": [
+    {"id": 1, "name": "Rahul", "amount": 450, "type": "owe_you", "reason": "Electricity"},
+    {"id": 2, "name": "Sneha", "amount": 200, "type": "you_owe", "reason": "Pizza Split"}
   ],
-  "recent_transactions": [
-    {
-      "id": 101,
-      "merchant": "Starbucks",
-      "amount": 350,
-      "category": "Food",
-      "date": "2025-12-24",
-      "emotion": "Stressed"
-    },
-    {
-      "id": 102,
-      "merchant": "Uber",
-      "amount": 120,
-      "category": "Transport",
-      "date": "2025-12-23",
-      "emotion": "Neutral"
-    }
+  "gig_opportunities": [
+    {"id": 101, "title": "Lab Assistant (3 hrs)", "pay": 600, "location": "Academic Block"},
+    {"id": 102, "title": "Event Volunteer", "pay": 400, "location": "Main Auditorium"}
+  ],
+  "subscriptions": [
+    {"name": "Netflix", "cost": 649, "status": "unused"}
   ]
 }
+
