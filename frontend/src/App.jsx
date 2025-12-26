@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Wallet, MessageCircle, Users, Briefcase, AlertCircle } from 'lucide-react';
 import './App.css';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = 'https://finaura.onrender.com';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
