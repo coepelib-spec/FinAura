@@ -3,7 +3,7 @@ import { Wallet, MessageCircle, Users, Menu, X, Bell } from 'lucide-react';
 import './App.css';
 
 // USE YOUR RENDER URL HERE
-const API_URL = 'https://finaura-backend.onrender.com';
+const API_URL = 'https://finaura.onrender.com';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
