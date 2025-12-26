@@ -13,10 +13,10 @@
   ],
   "gig_opportunities": [
     {"id": 101, "title": "Lab Assistant (3 hrs)", "pay": 600, "location": "Academic Block"},
-    {"id": 102, "title": "Event Volunteer", "pay": 400, "location": "Main Auditorium"}
+    {"id": 102, "title": "TechFiesta Volunteer", "pay": 400, "location": "Main Auditorium"}
   ],
   "subscriptions": [
-    {"name": "Netflix", "cost": 649, "status": "unused"}
+    {"name": "Netflix Premium", "cost": 649, "status": "unused"}
   ]
 }
 
