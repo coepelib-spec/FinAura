@@ -3,7 +3,7 @@ import { Wallet, MessageCircle, Users, Camera, Bell, ArrowRight, CheckCircle } f
 import './App.css';
 
 // ⚠️ CHANGE THIS TO YOUR RENDER URL
-const API_URL = 'https://finaura-backend.onrender.com'; 
+const API_URL = 'https://finaura.onrender.com'; 
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
