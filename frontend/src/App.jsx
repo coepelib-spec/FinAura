@@ -1,108 +1,97 @@
 import { useState, useEffect } from 'react';
-import { LayoutDashboard, MessageCircle, Wallet, AlertTriangle, Send, ScanLine } from 'lucide-react';
+import { Wallet, MessageCircle, Users, Briefcase, AlertCircle } from 'lucide-react';
 import './App.css';
 
-// Ensure this matches your running Backend URL
-const API_URL = 'https://finaura.onrender.com';
+const API_URL = 'http://127.0.0.1:8000';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch(`${API_URL}/dashboard`).then(res => res.json()).then(setData);
+  }, []);
+
+  if (!data) return <div className="loading">Syncing Spending DNA...</div>;
 
   return (
     <div className="app-container">
-      {/* Sidebar Navigation */}
       <nav className="sidebar">
-        <div className="logo">
-          <h2>FinAura ✨</h2>
-        </div>
-        <div className="nav-links">
-          <button 
-            className={activeTab === 'dashboard' ? 'active' : ''} 
-            onClick={() => setActiveTab('dashboard')}
-          >
-            <LayoutDashboard size={20} /> Dashboard
-          </button>
-          <button 
-            className={activeTab === 'chat' ? 'active' : ''} 
-            onClick={() => setActiveTab('chat')}
-          >
-            <MessageCircle size={20} /> AI Therapist
-          </button>
-        </div>
+        <h2>FinAura ✨</h2>
+        <button onClick={() => setActiveTab('dashboard')} className={activeTab === 'dashboard' ? 'active' : ''}>
+          <Wallet size={18}/> Dashboard
+        </button>
+        <button onClick={() => setActiveTab('chat')} className={activeTab === 'chat' ? 'active' : ''}>
+          <MessageCircle size={18}/> Therapist
+        </button>
+        <button onClick={() => setActiveTab('tools')} className={activeTab === 'tools' ? 'active' : ''}>
+          <Users size={18}/> Social & Gigs
+        </button>
       </nav>
 
-      {/* Main Content Area */}
-      <main className="main-content">
-        {activeTab === 'dashboard' ? <Dashboard /> : <ChatInterface />}
+      <main className="content">
+        {activeTab === 'dashboard' && <DashboardView data={data} />}
+        {activeTab === 'chat' && <ChatView />}
+        {activeTab === 'tools' && <ToolsView data={data} />}
       </main>
     </div>
   );
 }
 
-// --- COMPONENT: DASHBOARD ---
-function Dashboard() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`${API_URL}/dashboard`)
-      .then(res => res.json())
-      .then(data => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Backend offline:", err);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <div className="loading">Connecting to FinAura Brain...</div>;
-  if (!data) return <div className="error">⚠️ Backend Offline. Run: uvicorn main:app --reload</div>;
-
+function DashboardView({ data }) {
   return (
-    <div className="dashboard-view fade-in">
-      <header className="header">
-        <h1>Welcome back, {data.user_name} 👋</h1>
-        <span className="badge">{data.spending_dna}</span>
+    <div className="fade-in">
+      <header>
+        <h1>{data.user.name}'s Reality Check</h1>
+        <span className="dna-tag">{data.user.spending_dna} Profile</span>
       </header>
 
-      {/* The "Will I Be Broke?" Engine */}
       <div className="hero-card">
-        <div className="hero-content">
-          <span className="label">Safe-to-Spend Daily Limit</span>
-          <h1 className="big-number">₹{data.safe_to_spend_daily}</h1>
-          <p>You have {data.days_left} days left. Spend less than this to survive.</p>
-        </div>
-        <div className="hero-icon">
-          <Wallet size={64} opacity={0.2} />
-        </div>
+        [span_13](start_span)<p>Daily "Safe-to-Spend" Limit[span_13](end_span)</p>
+        <h1 className="big-amt">₹{data.safe_to_spend}</h1>
+        [span_14](start_span)[span_15](start_span){data.user.mood === 'Stressed' && <p className="warning">⚠️ High Stress Detected: Impulse Cooldown Active[span_14](end_span)[span_15](end_span)</p>}
       </div>
 
-      <div className="grid-container">
-        {/* Balance Card */}
-        <div className="card">
-          <h3>Total Balance</h3>
-          <p className="value">₹{data.balance}</p>
-        </div>
-
-        {/* Vampire Subscription Alert */}
-        {data.vampire_subscriptions.length > 0 && (
-          <div className="card vampire-alert">
-            <div className="card-header">
-              <AlertTriangle color="#e11d48" />
-              <h3>Vampire Alert</h3>
-            </div>
-            <p>You are paying <strong>₹{data.vampire_subscriptions[0].cost}</strong> for {data.vampire_subscriptions[0].name} but not using it!</p>
-            <button className="btn-action" onClick={() => alert("AI is negotiating cancellation...")}>
-              Cancel Subscription
-            </button>
-          </div>
-        )}
+      <div className="vampire-card">
+        [span_16](start_span)<h3>Subscription Stalker[span_16](end_span)</h3>
+        <p>Found unused <strong>{data.unused_sub.name}</strong>. Save ₹{data.unused_sub.cost}?</p>
+        <button className="btn-secondary">Generate Cancel Script</button>
       </div>
     </div>
   );
 }
+
+function ToolsView({ data }) {
+  return (
+    <div className="fade-in">
+      <section className="tool-section">
+        [span_17](start_span)<h3>Roommate OS[span_17](end_span)</h3>
+        {data.roommates.map(r => (
+          <div key={r.id} className="item-row">
+            <span>{r.name} ({r.reason})</span>
+            <span className={r.type === 'owe_you' ? 'positive' : 'negative'}>
+              {r.type === 'owe_you' ? '+' : '-'}₹{r.amount}
+            </span>
+          </div>
+        ))}
+        [span_18](start_span)<button className="btn-primary">AI Arbitration: Remind All[span_18](end_span)</button>
+      </section>
+
+      <section className="tool-section">
+        [span_19](start_span)<h3>Hustle Finder[span_19](end_span)</h3>
+        {data.gigs.map(g => (
+          <div key={g.id} className="item-row">
+            <span>{g.title}</span>
+            <span className="pay-tag">₹{g.pay}</span>
+          </div>
+        ))}
+        [span_20](start_span)<p className="hint">Bridge your budget gap with local work[span_20](end_span).</p>
+      </section>
+    </div>
+  );
+}
+
+// (Keep the previous ChatView logic here)
 
 // --- COMPONENT: CHAT INTERFACE ---
 function ChatInterface() {
