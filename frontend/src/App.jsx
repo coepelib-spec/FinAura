@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Wallet, MessageCircle, Users, Menu, X, Bell } from 'lucide-react';
+import { Wallet, MessageCircle, Users, Camera, Bell, ArrowRight, CheckCircle } from 'lucide-react';
 import './App.css';
 
-// USE YOUR RENDER URL HERE
-const API_URL = 'https://finaura.onrender.com';
+// ⚠️ CHANGE THIS TO YOUR RENDER URL
+const API_URL = 'https://finaura-backend.onrender.com'; 
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -13,76 +13,51 @@ function App() {
   useEffect(() => {
     fetch(`${API_URL}/dashboard`)
       .then(res => {
-        if (!res.ok) throw new Error("Server Offline");
+        if (!res.ok) throw new Error("Offline");
         return res.json();
       })
-      .then(data => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
+      .then(d => { setData(d); setLoading(false); })
+      .catch(e => { console.error(e); setLoading(false); });
   }, []);
 
-  if (loading) return <div className="loading-screen"><div className="spinner"></div><p>Syncing FinAura...</p></div>;
-  if (!data) return <div className="error-screen">⚠️ Backend is Asleep. Open Render URL to wake it up!</div>;
+  if (loading) return <div className="loading-screen"><div className="spinner"></div><p>Loading FinAura...</p></div>;
+  if (!data) return <div className="error-screen">⚠️ Connect to Backend!</div>;
 
   return (
     <div className="app-container">
-      {/* Desktop Sidebar (Hidden on Mobile) */}
+      {/* Desktop Sidebar */}
       <nav className="sidebar">
         <div className="logo">FinAura ✨</div>
-        <button onClick={() => setActiveTab('dashboard')} className={activeTab === 'dashboard' ? 'active' : ''}>
-          <Wallet size={20} /> Dashboard
-        </button>
-        <button onClick={() => setActiveTab('chat')} className={activeTab === 'chat' ? 'active' : ''}>
-          <MessageCircle size={20} /> AI Therapist
-        </button>
-        <button onClick={() => setActiveTab('tools')} className={activeTab === 'tools' ? 'active' : ''}>
-          <Users size={20} /> Social & Gigs
-        </button>
+        <button onClick={() => setActiveTab('dashboard')} className={activeTab === 'dashboard' ? 'active' : ''}><Wallet size={20}/> Dashboard</button>
+        <button onClick={() => setActiveTab('chat')} className={activeTab === 'chat' ? 'active' : ''}><MessageCircle size={20}/> AI Therapist</button>
+        <button onClick={() => setActiveTab('tools')} className={activeTab === 'tools' ? 'active' : ''}><Users size={20}/> Social & Gigs</button>
       </nav>
 
-      {/* Main Content */}
       <main className="content">
         {activeTab === 'dashboard' && <DashboardView data={data} />}
         {activeTab === 'chat' && <ChatView />}
         {activeTab === 'tools' && <ToolsView data={data} />}
       </main>
 
-      {/* Mobile Bottom Navigation (Visible only on Phone) */}
+      {/* Mobile Nav */}
       <div className="mobile-nav">
-        <button onClick={() => setActiveTab('dashboard')} className={activeTab === 'dashboard' ? 'active' : ''}>
-          <Wallet size={24} />
-          <span>Home</span>
-        </button>
-        <button onClick={() => setActiveTab('chat')} className={activeTab === 'chat' ? 'active' : ''}>
-          <MessageCircle size={24} />
-          <span>Chat</span>
-        </button>
-        <button onClick={() => setActiveTab('tools')} className={activeTab === 'tools' ? 'active' : ''}>
-          <Users size={24} />
-          <span>Tools</span>
-        </button>
+        <button onClick={() => setActiveTab('dashboard')} className={activeTab === 'dashboard' ? 'active' : ''}><Wallet size={24}/><span>Home</span></button>
+        <button onClick={() => setActiveTab('chat')} className={activeTab === 'chat' ? 'active' : ''}><MessageCircle size={24}/><span>Chat</span></button>
+        <button onClick={() => setActiveTab('tools')} className={activeTab === 'tools' ? 'active' : ''}><Users size={24}/><span>Tools</span></button>
       </div>
     </div>
   );
 }
 
+// --- DASHBOARD ---
 function DashboardView({ data }) {
   return (
     <div className="view-container fade-in">
       <header className="mobile-header">
-        <div>
-          <h1>Hello, {data.user.name} 👋</h1>
-          <span className="dna-badge">{data.user.spending_dna}</span>
-        </div>
-        <div className="profile-icon">A</div>
+        <div><h1>Hello, {data.user.name} 👋</h1><span className="dna-badge">{data.user.spending_dna}</span></div>
       </header>
-
-      {/* Hero Card */}
+      
+      {/* Will I Be Broke Engine  */}
       <div className="hero-card">
         <div className="glass-effect">
           <p className="hero-label">Safe-to-Spend Today</p>
@@ -91,49 +66,110 @@ function DashboardView({ data }) {
         </div>
       </div>
 
-      {/* Warning Banner */}
       {data.user.mood === 'Stressed' && (
-        <div className="alert-banner">
-          <Bell size={18} />
-          <p>High Stress Detected. Impulse protection is <strong>ON</strong>.</p>
-        </div>
+        <div className="alert-banner"><Bell size={18} /><p>High Stress Detected. Impulse protection <strong>ON</strong>.</p></div>
       )}
 
-      {/* Stats Grid */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <span className="stat-label">Balance</span>
-          <h3 className="stat-value">₹{data.user.current_balance}</h3>
-        </div>
-        <div className="stat-card">
-          <span className="stat-label">Days Left</span>
-          <h3 className="stat-value">{data.user.days_left}</h3>
-        </div>
-      </div>
-
-      {/* Subscription Stalker */}
+      {/* Subscription Stalker  */}
       {data.unused_sub && (
         <div className="vampire-card">
-          <div className="vampire-header">
-            <h3>🧛 Vampire Alert</h3>
-            <span className="tag-red">Unused</span>
-          </div>
-          <p>You are wasting money on <strong>{data.unused_sub.name}</strong>.</p>
-          <button className="btn-vampire">Stop Wasting ₹{data.unused_sub.cost}</button>
+          <div className="vampire-header"><h3>🧛 Vampire Alert</h3><span className="tag-red">Unused</span></div>
+          <p>Wasting money on <strong>{data.unused_sub.name}</strong>.</p>
+          <button className="btn-vampire" onClick={() => alert("Script Generated!")}>Save ₹{data.unused_sub.cost}</button>
         </div>
       )}
     </div>
   );
 }
 
+// --- CHAT THERAPIST ---
 function ChatView() {
-    // Re-use your existing Chat Logic here, just wrap it in <div className="view-container">
-    return <div className="view-container"><h2 style={{textAlign:'center', marginTop: '20px'}}>AI Therapist Loaded 🤖</h2></div>; 
+  const [messages, setMessages] = useState([{ text: "I noticed you viewed a ₹3000 shoe ad. Want to talk about it?", sender: 'bot' }]);
+  const [input, setInput] = useState('');
+
+  const sendMessage = async () => {
+    if (!input) return;
+    const newMsgs = [...messages, { text: input, sender: 'user' }];
+    setMessages(newMsgs);
+    setInput('');
+    
+    // Simulate API Call
+    try {
+      const res = await fetch(`${API_URL}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: input })
+      });
+      const data = await res.json();
+      setMessages([...newMsgs, { text: data.response, sender: 'bot' }]);
+    } catch (e) { console.error(e); }
+  };
+
+  const handleFileUpload = async (e) => {
+    alert("Scanning Receipt... (Mock OCR)");
+    // In a real app, you would append FormData here
+    setTimeout(() => {
+        setMessages(prev => [...prev, { text: "🧾 Scan Complete: Domino's Pizza (₹450). Added to ledger.", sender: 'bot' }]);
+    }, 1500);
+  };
+
+  return (
+    <div className="view-container fade-in full-height">
+      <div className="chat-window">
+        {messages.map((m, i) => (
+          <div key={i} className={`message ${m.sender}`}>{m.text}</div>
+        ))}
+      </div>
+      <div className="input-area">
+        <label className="icon-btn">
+            <Camera size={20} />
+            <input type="file" style={{display:'none'}} onChange={handleFileUpload}/>
+        </label>
+        <input value={input} onChange={e => setInput(e.target.value)} placeholder="Type here..." />
+        <button className="send-btn" onClick={sendMessage}><ArrowRight size={18}/></button>
+      </div>
+    </div>
+  );
 }
 
+// --- TOOLS (ROOMMATE OS + HUSTLE FINDER) ---
 function ToolsView({ data }) {
-    // Re-use your existing Tools Logic here
-     return <div className="view-container"><h2 style={{textAlign:'center', marginTop: '20px'}}>Tools Loaded 🛠️</h2></div>;
+  return (
+    <div className="view-container fade-in">
+      {/* Roommate OS [cite: 29] */}
+      <section className="tool-section">
+        <h3>🏠 Roommate OS</h3>
+        {data.roommates.map(r => (
+          <div key={r.id} className="list-item">
+            <div className="item-left">
+                <div className="avatar">{r.name[0]}</div>
+                <div><p className="item-title">{r.name}</p><p className="item-sub">{r.reason}</p></div>
+            </div>
+            <div className="item-right">
+                <span className={r.type === 'owe_you' ? 'txt-green' : 'txt-red'}>
+                    {r.type === 'owe_you' ? '+' : '-'}₹{r.amount}
+                </span>
+                {r.type === 'owe_you' && <button className="btn-xs" onClick={() => alert(`Neutral Reminder sent to ${r.name}!`)}>Nudge</button>}
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* Hustle Finder [cite: 31] */}
+      <section className="tool-section">
+        <h3>💼 Hustle Finder</h3>
+        {data.gigs.map(g => (
+          <div key={g.id} className="list-item">
+            <div className="item-left">
+                <div className="icon-box">⚡</div>
+                <div><p className="item-title">{g.title}</p><p className="item-sub">{g.location} • {g.time}</p></div>
+            </div>
+            <button className="btn-outline">Earn ₹{g.pay}</button>
+          </div>
+        ))}
+      </section>
+    </div>
+  );
 }
 
 export default App;
