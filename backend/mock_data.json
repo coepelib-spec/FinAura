@@ -8,15 +8,14 @@
     "mood": "Stressed"
   },
   "roommate_ledger": [
-    {"id": 1, "name": "Rahul", "amount": 450, "type": "owe_you", "reason": "Electricity"},
-    {"id": 2, "name": "Sneha", "amount": 200, "type": "you_owe", "reason": "Pizza Split"}
+    {"id": 1, "name": "Rahul", "amount": 450, "type": "owe_you", "reason": "Electricity Bill", "status": "pending"},
+    {"id": 2, "name": "Sneha", "amount": 200, "type": "you_owe", "reason": "Pizza Night", "status": "pending"}
   ],
   "gig_opportunities": [
-    {"id": 101, "title": "Lab Assistant (3 hrs)", "pay": 600, "location": "Academic Block"},
-    {"id": 102, "title": "TechFiesta Volunteer", "pay": 400, "location": "Main Auditorium"}
+    {"id": 101, "title": "Lab Assistant", "pay": 600, "time": "3 hrs", "location": "Academic Block"},
+    {"id": 102, "title": "TechFiesta Vol.", "pay": 400, "time": "4 hrs", "location": "Auditorium"}
   ],
   "subscriptions": [
-    {"name": "Netflix Premium", "cost": 649, "status": "unused"}
+    {"name": "Netflix Premium", "cost": 649, "status": "unused", "last_used": "32 days ago"}
   ]
 }
-
