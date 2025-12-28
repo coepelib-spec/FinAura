@@ -26,6 +26,10 @@ db = get_db()
 class ChatRequest(BaseModel):
     message: str
 
+@app.get("/")
+def read_root():
+    return {"status": "FinAura Backend is Live!"}
+
 @app.get("/dashboard")
 def get_dashboard():
     user = db['user_profile']
